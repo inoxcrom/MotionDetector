@@ -30,7 +30,7 @@ public class MDManager implements IGetRawPictureCallback {
     public void OnGetRawPicture(CmdParameters parms) {
         try {
 
-            if (mMD.chkImg(_current.data, _current.w, _current.h) >= _current.delta ) {
+            if (mMD.chkImg(_current.data, _current.w, _current.h) >= PreferencesHelper.getDelta()) {
                 if (mDetectNum == en_detect_mun.none)
                     mDetectNum = en_detect_mun.first;
                 else if(mDetectNum == en_detect_mun.first) {

@@ -117,7 +117,6 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
         p.w = sizeW;
 
         p.angle = 0;//_angle._displayOrientation;
-        p.delta = 0;//_cameraPreferences.GetDelta();
 
         p.cmdParam = param;
 

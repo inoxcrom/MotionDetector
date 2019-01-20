@@ -37,6 +37,25 @@ public class MediatorMD {
     //endregion ITransport
 
 
+    //region ICommandCheckMessage
+    private static ICommandCheckMessage _CommandCheckMessage;
+
+    public static void setCommandCheckMessage(ICommandCheckMessage t){
+        _CommandCheckMessage = t;
+    }
+    public static void CheckMessage(String inTxt, boolean repeatCmd, boolean isSilent, String msgId){
+        if(_CommandCheckMessage != null)
+            _CommandCheckMessage.CheckMessage(inTxt, repeatCmd, isSilent, msgId);
+    }
+    public static void CheckMessage(String inTxt, String msgId){
+        if(_CommandCheckMessage != null)
+            _CommandCheckMessage.CheckMessage(inTxt, msgId);
+    }
+
+    //endregion ICommandCheckMessage
+
+
+
     // region IGetRawPciture
     private  static IGetRawPciture _IGetRawPciture;
 
@@ -53,6 +72,6 @@ public class MediatorMD {
         _Transport = null;
 
     }
-
+    //endregion IGetRawPciture
 }
 

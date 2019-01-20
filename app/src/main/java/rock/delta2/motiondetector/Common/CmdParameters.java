@@ -1,6 +1,10 @@
 package rock.delta2.motiondetector.Common;
 
-public abstract class CmdParameters {
+public class CmdParameters {
+
+    public CmdParameters(String s){
+        msgId = s;
+    }
 
     public String msgId;
 }

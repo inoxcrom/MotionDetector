@@ -26,6 +26,7 @@ public class MainService extends Service {
         startForeground(R.drawable.ic_notify_proc, "motion detector", 4524);
 
         MediatorMD.setTransport(new Sender(this));
+        MediatorMD.setCommandCheckMessage(new CommandManager(this));
 
         Manager = new MDManager(this);
 

@@ -30,6 +30,13 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".Sender.CommandReceiver">
+            <intent-filter>
+                <action android:name="rock.delta2.cmd" />
+
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".MainService"
             android:enabled="true" />

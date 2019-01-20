@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MotionDetector</string>
+
+    <string name="cmd_get_photo_description">any other characters - request a photo</string>
+    <string name="cmd_start_description">starting motion detection</string>
+    <string name="cmd_stop_description">stop motion detector</string>
+
 </resources>
