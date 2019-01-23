@@ -6,15 +6,18 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import rock.delta2.motiondetector.Commands.CmdStart;
+import rock.delta2.motiondetector.Commands.CmdStop;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.RawPicture;
 import rock.delta2.motiondetector.Helper;
+import rock.delta2.motiondetector.Mediator.ICommandExcecuted;
 import rock.delta2.motiondetector.Mediator.IGetRawPictureCallback;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
 import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 
 
-public class MDManager implements IGetRawPictureCallback {
+public class MDManager implements IGetRawPictureCallback, ICommandExcecuted {
     private Context mContext;
     private SurfaceViewExt mMDCamera;
     private MD mMD;
@@ -71,6 +74,24 @@ public class MDManager implements IGetRawPictureCallback {
 
     }
 
+    @Override
+    public void OnCommandExcecuted(String comand) {
+        if(comand.equals(CmdStart._COMMAND)){
+            timerStop();
+            stopCamera();
+            openCamera();
+            timerStart();
+        }
+        else if (comand.equals(CmdStop._COMMAND)){
+            timerStop();
+            stopCamera();
+        }
+        //else if (comand.equals(CmdS))
+
+
+
+    }
+
     enum en_detect_mun
     {
         none,
@@ -86,24 +107,21 @@ public class MDManager implements IGetRawPictureCallback {
 
         mMD = new MD();
 
-        mMDCamera = new SurfaceViewExt(mContext, 0);//PreferencesHelper.GetCamIdx());
+        openCamera();
 
-        mTimer = new Timer();
-        mTimerTask = new MDManagerTimerTask(this);
-        mTimer.schedule(mTimerTask, 1000, 400);
+        MediatorMD.registerCommandExcecuted(this);
+
+        timerStart();
+
+
     }
 
     public void onDestroy(){
+        timerStop();
 
-        if (mTimer != null)
-            mTimer.cancel();
+        MediatorMD.unregisterCommandExcecuted(this);
 
-        mTimer = null;
-        mTimerTask = null;
-
-        if (mMDCamera != null)
-            mMDCamera.onDestroy();
-        mMDCamera = null;
+        stopCamera();
 
         if (mMD != null)
             mMD.onDestroy();
@@ -112,6 +130,34 @@ public class MDManager implements IGetRawPictureCallback {
 
 
         mContext = null;
+    }
+
+    private void stopCamera(){
+        if (mMDCamera != null)
+            mMDCamera.onDestroy();
+        mMDCamera = null;
+    }
+
+    private void openCamera(){
+        CameraParameters p = new CameraParameters();
+        //p.camIdx = PreferencesHelper;
+        //p.sizeIdx = PreferencesHelper.
+
+        mMDCamera = new SurfaceViewExt(mContext, p);
+    }
+
+    private void timerStart(){
+        mTimer = new Timer();
+        mTimerTask = new MDManagerTimerTask(this);
+        mTimer.schedule(mTimerTask, 1000, 400);
+    }
+
+    private void timerStop(){
+        if (mTimer != null)
+            mTimer.cancel();
+
+        mTimer = null;
+        mTimerTask = null;
     }
 
     class MDManagerTimerTask extends TimerTask {

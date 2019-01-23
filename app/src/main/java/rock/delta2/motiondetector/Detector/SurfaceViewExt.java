@@ -37,7 +37,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
 
     private long lastCameraTime = 0;
 
-    public SurfaceViewExt(Context context, int camIdx) {
+    public SurfaceViewExt(Context context, CameraParameters param) {
         super(context);
 
         _context  = context;
@@ -48,7 +48,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
 
         _rawPictures = Collections.synchronizedList(new ArrayList<RawPicture>());
 
-        cameraOpen(camIdx);
+        cameraOpen(param.camIdx);
 
     }
 
