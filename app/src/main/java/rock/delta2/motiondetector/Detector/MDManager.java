@@ -107,11 +107,12 @@ public class MDManager implements IGetRawPictureCallback, ICommandExcecuted {
 
         mMD = new MD();
 
-        openCamera();
-
         MediatorMD.registerCommandExcecuted(this);
 
-        timerStart();
+        if (PreferencesHelper.GetIsActive()) {
+            openCamera();
+            timerStart();
+        }
 
 
     }
