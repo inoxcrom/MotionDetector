@@ -9,6 +9,7 @@ import java.util.List;
 import rock.delta2.motiondetector.Commands.CmdPhotoGet;
 import rock.delta2.motiondetector.Commands.CmdStart;
 import rock.delta2.motiondetector.Commands.CmdStop;
+import rock.delta2.motiondetector.Commands.CmdTurn;
 import rock.delta2.motiondetector.Common.CmdBase;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.ResultCmd;
@@ -41,6 +42,7 @@ public class CommandManager implements ICommandCheckMessage {
         
         _commands.add(new CmdStart());
         _commands.add(new CmdStop());
+        _commands.add(new CmdTurn());
         
         //_commands.add(new CmdStartSet());
         //_commands.add(new CmdStopSet());

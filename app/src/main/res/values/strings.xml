@@ -4,5 +4,15 @@
     <string name="cmd_get_photo_description">any other characters - request a photo</string>
     <string name="cmd_start_description">starting motion detection</string>
     <string name="cmd_stop_description">stop motion detector</string>
+    <string name="cmd_turn_description">turn motion detector</string>
+
+
+    <string name="size">size</string>
+    <string name="cmd_size_get_description">get size</string>
+    <string name="cmd_size_set_description">set size</string>
+
+    <string name="camera">camera</string>
+    <string name="cmd_camera_get_description">get camera</string>
+    <string name="cmd_camera_set_description">set camera</string>
 
 </resources>

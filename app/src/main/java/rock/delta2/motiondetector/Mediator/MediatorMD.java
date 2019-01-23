@@ -1,6 +1,9 @@
 package rock.delta2.motiondetector.Mediator;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.RawPicture;
 
@@ -36,7 +39,6 @@ public class MediatorMD {
 
     //endregion ITransport
 
-
     //region ICommandCheckMessage
     private static ICommandCheckMessage _CommandCheckMessage;
 
@@ -53,8 +55,6 @@ public class MediatorMD {
     }
 
     //endregion ICommandCheckMessage
-
-
 
     // region IGetRawPciture
     private  static IGetRawPciture _IGetRawPciture;
@@ -73,5 +73,26 @@ public class MediatorMD {
 
     }
     //endregion IGetRawPciture
+
+    //region ICommandExcecuted
+    private static List<ICommandExcecuted> _CommandExcecuted = new ArrayList<>();
+
+    public static void registerCommandExcecuted(ICommandExcecuted t){
+        _CommandExcecuted.add(t);
+
+    }
+    public static void unregisterCommandExcecuted(ICommandExcecuted t){
+        _CommandExcecuted .remove(t);
+    }
+
+    public static void OnCommandExcecuted( String cmd){
+        if(_CommandExcecuted != null) {
+            for (ICommandExcecuted c :  _CommandExcecuted)
+                c.OnCommandExcecuted(cmd);
+        }
+    }
+
+    //endregion ICommandExcecuted
+
 }
 

@@ -3,6 +3,7 @@ package rock.delta2.motiondetector.Common;
 import android.content.Context;
 
 import rock.delta2.motiondetector.Helper;
+import rock.delta2.motiondetector.Mediator.MediatorMD;
 
 public abstract class CmdBase {
 
@@ -30,13 +31,17 @@ public abstract class CmdBase {
     }
 
     public ResultCmd exec(Context context, String orig, String[] parts, CmdParameters parms){
+        ResultCmd res;
         try {
             Helper.Log("Cmd.exec",cmd + " " + orig);
-            return run(context, orig, parts, parms);
+            res = run(context, orig, parts, parms);
+            MediatorMD.OnCommandExcecuted(cmd);
         } catch (Exception ex) {
             Helper.Ex2Log(ex);
-            return new ResultCmd(en_result.exception, ex.getMessage());
+            res = new ResultCmd(en_result.exception, ex.getMessage());
         }
+
+        return res;
 
     }
 

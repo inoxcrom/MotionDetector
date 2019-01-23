@@ -13,10 +13,12 @@ import java.util.TimerTask;
 
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.RawPicture;
+import rock.delta2.motiondetector.Mediator.ICommandExcecuted;
 import rock.delta2.motiondetector.Mediator.IGetRawPictureCallback;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
 
-public class MainActivity extends AppCompatActivity implements IGetRawPictureCallback {
+public class MainActivity extends AppCompatActivity
+        implements IGetRawPictureCallback, ICommandExcecuted {
 
     private Timer mTimer;
     private TimerTaskPict mTimerTask;
@@ -30,8 +32,10 @@ public class MainActivity extends AppCompatActivity implements IGetRawPictureCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MediatorMD.registerCommandExcecuted(this);
 
         sfPreviw = (SurfaceView)findViewById(R.id.sfPrev);
+
     }
 
     @Override
@@ -49,13 +53,14 @@ public class MainActivity extends AppCompatActivity implements IGetRawPictureCal
     public void onDestroy(){
         super.onDestroy();
 
+        MediatorMD.unregisterCommandExcecuted(this);
+
         mTimer.cancel();
         mTimerTask = null;
         mTimer = null;
 
         _current.OnDestroy();
         _current = null;
-
 
     }
 
@@ -89,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements IGetRawPictureCal
         }
     }
 
+    @Override
+    public void OnCommandExcecuted(String comand) {
+
+    }
 
 
     static class DrawPicture implements  Runnable{
