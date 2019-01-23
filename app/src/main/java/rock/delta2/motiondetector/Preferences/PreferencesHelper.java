@@ -12,6 +12,9 @@ public class PreferencesHelper {
     public static final String DELTA = "DELTA";
     public static final String DEVICE_NAME = "DEVICE_NAME";
 
+    public static final String CAMERA_IDX = "CAMERA_IDX";
+    public static final String CAMERA_SIZE_IDX = "CAMERA_SIZE_IDX";
+
 
 
     private static SharedPreferences mSettings;
@@ -20,6 +23,9 @@ public class PreferencesHelper {
     private static PreferenceValue _isActive;
     private static PreferenceValue _delta;
     private static PreferenceValue _deviceName;
+
+    private static PreferenceValue _cameraIdx;
+    private static PreferenceValue _cameraSizeIdx;
 
 
     public static void init(Context context) {
@@ -30,6 +36,9 @@ public class PreferencesHelper {
         _isActive  = new PreferenceValue(mSettings, AUTO_START, true);
         _delta = new PreferenceValue(mSettings, DELTA, 8);
         _deviceName = new PreferenceValue(mSettings, DEVICE_NAME, "");
+
+        _cameraIdx = new PreferenceValue(mSettings, CAMERA_IDX, 0);
+        _cameraSizeIdx = new PreferenceValue(mSettings, CAMERA_SIZE_IDX, 0);
     }
 
 
@@ -63,7 +72,7 @@ public class PreferencesHelper {
     }
     //endregion DELTA
 
-    //region DELTA
+    //region DEVICE_NAME
     public static void setDeviceName(String val) {
         _deviceName.setStr(val);
     }
@@ -72,5 +81,25 @@ public class PreferencesHelper {
         return _deviceName.getStr();
     }
     //endregion DELTA
+
+    //region CAMERA_IDX
+    public static void setCameraIdx(int val) {
+        _cameraIdx.setInt(val);
+    }
+
+    public static int getCameraIdx() {
+        return _cameraIdx.getInt();
+    }
+    //endregion CAMERA_IDX
+
+    //region CAMERA_SIZE_IDX
+    public static void setCameraSizeIdx(int val) {
+        _cameraSizeIdx.setInt(val);
+    }
+
+    public static int getCameraSizeIdx() {
+        return _cameraSizeIdx.getInt();
+    }
+    //endregion CAMERA_SIZE_IDX
 
 }

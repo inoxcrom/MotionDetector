@@ -139,9 +139,10 @@ public class MDManager implements IGetRawPictureCallback, ICommandExcecuted {
     }
 
     private void openCamera(){
+
         CameraParameters p = new CameraParameters();
-        //p.camIdx = PreferencesHelper;
-        //p.sizeIdx = PreferencesHelper.
+        p.camIdx = PreferencesHelper.getCameraIdx();
+        p.sizeIdx = PreferencesHelper.getCameraSizeIdx();
 
         mMDCamera = new SurfaceViewExt(mContext, p);
     }
