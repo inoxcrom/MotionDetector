@@ -94,6 +94,19 @@ public class MediatorMD {
 
     //endregion ICommandExcecuted
 
+    // region IGetCameraProp
+    private  static IGetCameraProp _GetCameraProp;
+
+    public static void setCameraProp(IGetCameraProp p){
+        _GetCameraProp = p;
+    }
+
+    public static void SendCameraProp(String msgId, String p){
+        if(_GetCameraProp != null)
+            _GetCameraProp.SendCameraProp(msgId, p);
+    }
+
+    //endregion IGetCameraProp
 
 }
 

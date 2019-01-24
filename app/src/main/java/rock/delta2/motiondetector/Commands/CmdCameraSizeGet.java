@@ -23,7 +23,7 @@ public class CmdCameraSizeGet extends CmdBase {
     }
 
     public ResultCmd run(Context context, String ori, String[] parts, CmdParameters parms){
-        MediatorMD.sendText( parms.msgId,_COMMAND + " : " + PreferencesHelper.getCameraSizeIdx ());
+        MediatorMD.SendCameraProp(parms.msgId, _COMMAND);
 
         return new ResultCmd();
     }

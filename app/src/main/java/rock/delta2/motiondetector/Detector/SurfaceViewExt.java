@@ -19,12 +19,14 @@ import java.util.List;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.RawPicture;
 import rock.delta2.motiondetector.Helper;
+import rock.delta2.motiondetector.Mediator.IGetCameraProp;
 import rock.delta2.motiondetector.Mediator.IGetRawPciture;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
 
 public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callback
         , Camera.PreviewCallback
         , IGetRawPciture
+        , IGetCameraProp
 
 {
     private Camera _camera;
@@ -134,6 +136,15 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
             _camera.addCallbackBuffer(p.data);
          else
              cameraOpen(_camIdx);
+
+    }
+
+    @Override
+    public void SendCameraProp(String msgId,String prop) {
+
+        String res = "";
+
+        MediatorMD.sendText(msgId, res);
 
     }
 
