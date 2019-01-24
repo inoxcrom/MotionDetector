@@ -22,7 +22,8 @@ public class CmdCameraSizeSet extends CmdBase {
     }
 
     public ResultCmd run(Context context, String ori, String[] parts, CmdParameters parms){
-        PreferencesHelper.setCameraSizeIdx ();
+        int val = Integer.valueOf(parts[2]);
+        PreferencesHelper.setCameraSizeIdx (val);
 
         return new ResultCmd();
     }

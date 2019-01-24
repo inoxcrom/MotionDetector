@@ -5,6 +5,7 @@ import android.content.Context;
 import rock.delta2.motiondetector.Common.CmdBase;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.ResultCmd;
+import rock.delta2.motiondetector.Mediator.MediatorMD;
 import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 import rock.delta2.motiondetector.R;
 
@@ -22,7 +23,7 @@ public class CmdCameraSizeGet extends CmdBase {
     }
 
     public ResultCmd run(Context context, String ori, String[] parts, CmdParameters parms){
-        PreferencesHelper.getCameraSizeIdx ();
+        MediatorMD.sendText( parms.msgId,_COMMAND + " : " + PreferencesHelper.getCameraSizeIdx ());
 
         return new ResultCmd();
     }
