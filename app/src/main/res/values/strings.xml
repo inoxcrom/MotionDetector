@@ -15,4 +15,8 @@
     <string name="cmd_camera_get_description">get camera</string>
     <string name="cmd_camera_set_description">set camera</string>
 
+    <string name="delta">delta</string>
+    <string name="cmd_delta_get_description">get delta</string>
+    <string name="cmd_delta_set_description">set delta</string>
+
 </resources>

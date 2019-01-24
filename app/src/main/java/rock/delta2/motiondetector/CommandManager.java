@@ -10,6 +10,8 @@ import rock.delta2.motiondetector.Commands.CmdCameraGet;
 import rock.delta2.motiondetector.Commands.CmdCameraSet;
 import rock.delta2.motiondetector.Commands.CmdCameraSizeGet;
 import rock.delta2.motiondetector.Commands.CmdCameraSizeSet;
+import rock.delta2.motiondetector.Commands.CmdDeltaGet;
+import rock.delta2.motiondetector.Commands.CmdDeltaSet;
 import rock.delta2.motiondetector.Commands.CmdPhotoGet;
 import rock.delta2.motiondetector.Commands.CmdStart;
 import rock.delta2.motiondetector.Commands.CmdStop;
@@ -47,6 +49,9 @@ public class CommandManager implements ICommandCheckMessage {
 
         _commands.add(new CmdCameraSizeSet());
         _commands.add(new CmdCameraSizeGet());
+
+        _commands.add(new CmdDeltaSet());
+        _commands.add(new CmdDeltaGet());
 
 
     }
