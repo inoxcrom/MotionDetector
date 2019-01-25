@@ -53,6 +53,10 @@ public class CommandManager implements ICommandCheckMessage {
         _commands.add(new CmdDeltaSet());
         _commands.add(new CmdDeltaGet());
 
+        _commands.add(new CmdDeltaSet());
+        _commands.add(new CmdDeltaGet());
+
+
 
     }
 

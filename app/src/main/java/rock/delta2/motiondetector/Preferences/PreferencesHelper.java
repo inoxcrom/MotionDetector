@@ -14,6 +14,7 @@ public class PreferencesHelper {
 
     public static final String CAMERA_IDX = "CAMERA_IDX";
     public static final String CAMERA_SIZE_IDX = "CAMERA_SIZE_IDX";
+    public static final String CAMERA_ANGLE_IDX = "CAMERA_ANGLE_IDX";
 
 
 
@@ -26,6 +27,7 @@ public class PreferencesHelper {
 
     private static PreferenceValue _cameraIdx;
     private static PreferenceValue _cameraSizeIdx;
+    private static PreferenceValue _cameraAngleIdx;
 
 
     public static void init(Context context) {
@@ -39,6 +41,7 @@ public class PreferencesHelper {
 
         _cameraIdx = new PreferenceValue(mSettings, CAMERA_IDX, 0);
         _cameraSizeIdx = new PreferenceValue(mSettings, CAMERA_SIZE_IDX, 0);
+        _cameraAngleIdx =  new PreferenceValue(mSettings, CAMERA_ANGLE_IDX, 0);
     }
 
 
@@ -101,5 +104,17 @@ public class PreferencesHelper {
         return _cameraSizeIdx.getInt();
     }
     //endregion CAMERA_SIZE_IDX
+
+    //region CAMERA_ANGLE_IDX
+    public static void setCameraAngleIdx(int val) {
+        _cameraAngleIdx.setInt(val);
+    }
+
+    public static int getCameraAngleIdx() {
+        return _cameraAngleIdx.getInt();
+    }
+    //endregion CAMERA_ANGLE_IDX
+
+
 
 }
