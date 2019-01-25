@@ -23,4 +23,8 @@
     <string name="angle">angle</string>
     <string name="cmd_angle_get_description">get angle</string>
     <string name="cmd_angle_set_description">set angle</string>
+
+    <string name="voice_call">voice call</string>
+    <string name="cmd_voice_call_get_description">get voice call</string>
+    <string name="cmd_voice_call_set_description">set voice call</string>
 </resources>

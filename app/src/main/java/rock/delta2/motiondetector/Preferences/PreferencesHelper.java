@@ -11,6 +11,8 @@ public class PreferencesHelper {
     public static final String AUTO_START = "AUTO_START";
     public static final String DELTA = "DELTA";
     public static final String DEVICE_NAME = "DEVICE_NAME";
+    public static final String IS_ACTIVE = "IS_ACTIVE";
+    public static final String VOICE_CALL = "VOICE_CALL";
 
     public static final String CAMERA_IDX = "CAMERA_IDX";
     public static final String CAMERA_SIZE_IDX = "CAMERA_SIZE_IDX";
@@ -22,6 +24,7 @@ public class PreferencesHelper {
 
     private static PreferenceValue _autoStart;
     private static PreferenceValue _isActive;
+    private static PreferenceValue _isVoiceCall;
     private static PreferenceValue _delta;
     private static PreferenceValue _deviceName;
 
@@ -35,7 +38,9 @@ public class PreferencesHelper {
 
         _autoStart  = new PreferenceValue(mSettings, AUTO_START, true);
 
-        _isActive  = new PreferenceValue(mSettings, AUTO_START, true);
+        _isActive  = new PreferenceValue(mSettings, IS_ACTIVE, true);
+
+        _isVoiceCall = new PreferenceValue(mSettings, VOICE_CALL, true);
         _delta = new PreferenceValue(mSettings, DELTA, 8);
         _deviceName = new PreferenceValue(mSettings, DEVICE_NAME, "");
 
@@ -64,6 +69,16 @@ public class PreferencesHelper {
         return _isActive.getBool();
     }
     // endregion IS_ACTIVE
+
+    //region VOICE_CALL
+    public static void setIsVoiceCall(boolean isActive) {
+        _isVoiceCall.setBool(isActive);
+    }
+
+    public static boolean getIsVoiceCall(){
+        return _isVoiceCall.getBool();
+    }
+    // endregion VOICE_CALL
 
     //region DELTA
     public static void setDelta(int val) {
