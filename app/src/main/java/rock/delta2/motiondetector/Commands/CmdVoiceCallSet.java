@@ -10,7 +10,7 @@ import rock.delta2.motiondetector.R;
 
 
 public class CmdVoiceCallSet extends CmdBase {
-    public static final String _COMMAND = "delta";
+    public static final String _COMMAND = "voicecall";
 
     public String getDescription(Context context){
         return String.format("\n%s - %s", _COMMAND
@@ -22,8 +22,10 @@ public class CmdVoiceCallSet extends CmdBase {
     }
 
     public ResultCmd run(Context context, String ori, String[] parts, CmdParameters parms){
-      //  int val = Integer.valueOf(parts[2]);
-      //  PreferencesHelper.setDelta (val);
+        if (parts[2].equals(_ON))
+            PreferencesHelper.setIsVoiceCall(true);
+        else if (parts[2].equals(_OFF))
+            PreferencesHelper.setIsVoiceCall(false);
 
         return new ResultCmd();
     }

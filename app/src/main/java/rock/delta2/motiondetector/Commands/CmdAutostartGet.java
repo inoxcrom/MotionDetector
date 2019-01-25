@@ -5,25 +5,24 @@ import android.content.Context;
 import rock.delta2.motiondetector.Common.CmdBase;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.ResultCmd;
-import rock.delta2.motiondetector.Preferences.PreferencesHelper;
+import rock.delta2.motiondetector.Mediator.MediatorMD;
 import rock.delta2.motiondetector.R;
 
 
-public class CmdTurn extends CmdBase {
-    public static final String _COMMAND = "turn";
+public class CmdAutostartGet extends CmdBase {
+    public static final String _COMMAND = "autostart";
 
     public String getDescription(Context context){
         return String.format("\n%s - %s", _COMMAND
-                , context.getResources().getString(R.string.cmd_turn_description));
+                , context.getResources().getString(R.string.cmd_auto_start_get_description));
     }
 
-    public CmdTurn(){
-        super(en_type.other, _COMMAND);
+    public CmdAutostartGet(){
+        super(en_type.get, _COMMAND);
     }
 
     public ResultCmd run(Context context, String ori, String[] parts, CmdParameters parms){
-
-            PreferencesHelper.SetIsActive(!PreferencesHelper.GetIsActive());
+        //MediatorMD.SendCameraProp(parms.msgId, _COMMAND);
 
         return new ResultCmd();
     }

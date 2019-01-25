@@ -9,21 +9,23 @@ import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 import rock.delta2.motiondetector.R;
 
 
-public class CmdTurn extends CmdBase {
-    public static final String _COMMAND = "turn";
+public class CmdAutostartSet extends CmdBase {
+    public static final String _COMMAND = "autostart";
 
     public String getDescription(Context context){
         return String.format("\n%s - %s", _COMMAND
-                , context.getResources().getString(R.string.cmd_turn_description));
+                , context.getResources().getString(R.string.cmd_auto_start_set_description));
     }
 
-    public CmdTurn(){
-        super(en_type.other, _COMMAND);
+    public CmdAutostartSet(){
+        super(en_type.set, _COMMAND);
     }
 
     public ResultCmd run(Context context, String ori, String[] parts, CmdParameters parms){
-
-            PreferencesHelper.SetIsActive(!PreferencesHelper.GetIsActive());
+        if (parts[2].equals(_ON))
+            PreferencesHelper.setAutoStart(true);
+        else if (parts[2].equals(_OFF))
+            PreferencesHelper.setAutoStart(false);
 
         return new ResultCmd();
     }

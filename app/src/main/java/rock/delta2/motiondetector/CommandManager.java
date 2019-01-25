@@ -6,6 +6,8 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import rock.delta2.motiondetector.Commands.CmdAutostartGet;
+import rock.delta2.motiondetector.Commands.CmdAutostartSet;
 import rock.delta2.motiondetector.Commands.CmdCameraGet;
 import rock.delta2.motiondetector.Commands.CmdCameraSet;
 import rock.delta2.motiondetector.Commands.CmdCameraSizeGet;
@@ -16,6 +18,8 @@ import rock.delta2.motiondetector.Commands.CmdPhotoGet;
 import rock.delta2.motiondetector.Commands.CmdStart;
 import rock.delta2.motiondetector.Commands.CmdStop;
 import rock.delta2.motiondetector.Commands.CmdTurn;
+import rock.delta2.motiondetector.Commands.CmdVoiceCallGet;
+import rock.delta2.motiondetector.Commands.CmdVoiceCallSet;
 import rock.delta2.motiondetector.Common.CmdBase;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.ResultCmd;
@@ -56,7 +60,11 @@ public class CommandManager implements ICommandCheckMessage {
         _commands.add(new CmdDeltaSet());
         _commands.add(new CmdDeltaGet());
 
+        _commands.add(new CmdAutostartGet());
+        _commands.add(new CmdAutostartSet());
 
+        _commands.add(new CmdVoiceCallSet());
+        _commands.add(new CmdVoiceCallGet());
 
     }
 

@@ -1,5 +1,6 @@
 package rock.delta2.motiondetector;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -7,15 +8,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.CheckBox;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import rock.delta2.motiondetector.Commands.CmdAutostartGet;
+import rock.delta2.motiondetector.Commands.CmdAutostartSet;
+import rock.delta2.motiondetector.Commands.CmdStart;
+import rock.delta2.motiondetector.Commands.CmdStop;
+import rock.delta2.motiondetector.Commands.CmdTurn;
+import rock.delta2.motiondetector.Commands.CmdVoiceCallGet;
+import rock.delta2.motiondetector.Commands.CmdVoiceCallSet;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.RawPicture;
 import rock.delta2.motiondetector.Mediator.ICommandExcecuted;
 import rock.delta2.motiondetector.Mediator.IGetRawPictureCallback;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
+import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 
 public class MainActivity extends AppCompatActivity
         implements IGetRawPictureCallback, ICommandExcecuted {
@@ -27,6 +38,9 @@ public class MainActivity extends AppCompatActivity
 
     private SurfaceView sfPreviw;
 
+    CheckBox cbAutoStart;
+    CheckBox cbVoiceCall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +48,11 @@ public class MainActivity extends AppCompatActivity
 
         MediatorMD.registerCommandExcecuted(this);
 
-        sfPreviw = (SurfaceView)findViewById(R.id.sfPrev);
+        sfPreviw = findViewById(R.id.sfPrev);
+        cbVoiceCall = findViewById(R.id.cbVoiceCall);
+        cbAutoStart = findViewById(R.id.cbAutoStart);
 
+        refresh("");
     }
 
     @Override
@@ -96,10 +113,41 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void OnCommandExcecuted(String comand) {
+        refresh(comand);
+    }
+
+    private void refresh(String prop){
+        boolean isAll = prop.equals("");
+
+
+        if (isAll || prop.equals(CmdStart._COMMAND) || prop.equals(CmdStop._COMMAND) || prop.equals(CmdTurn._COMMAND) )
+            setStartStop();
+
+        if (isAll || prop.equals(CmdAutostartGet._COMMAND) || prop.equals(CmdAutostartSet._COMMAND))
+            cbAutoStart.setChecked(PreferencesHelper.getAutoStart());
+
+        if (isAll || prop.equals(CmdVoiceCallGet._COMMAND) || prop.equals(CmdVoiceCallSet._COMMAND))
+            cbVoiceCall.setChecked(PreferencesHelper.getIsVoiceCall());
+    }
+
+    private void setStartStop(){
 
     }
 
+    public void onClick(View view) {
+        if (view.equals(cbAutoStart))
+            PreferencesHelper.setAutoStart(cbAutoStart.isChecked());
+        else if (view.equals(cbVoiceCall))
+            PreferencesHelper.setAutoStart(cbVoiceCall.isChecked());
 
+    }
+
+    public void onCloseClick(View view) {
+        stopService(new Intent(this, MainService.class));
+        finish();
+    }
+
+//region camera preview
     static class DrawPicture implements  Runnable{
 
         MainActivity activity;
@@ -137,7 +185,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     class TimerTaskPict extends TimerTask {
 
         RawPicture _pic;
@@ -151,4 +198,6 @@ public class MainActivity extends AppCompatActivity
             MediatorMD.GetRawPciture(_pic, null, true);
         }
     }
+//endregion camera preview
+
 }

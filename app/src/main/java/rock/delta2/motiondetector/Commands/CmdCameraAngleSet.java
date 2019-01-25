@@ -10,7 +10,7 @@ import rock.delta2.motiondetector.R;
 
 
 public class CmdCameraAngleSet extends CmdBase {
-    public static final String _COMMAND = "delta";
+    public static final String _COMMAND = "angle";
 
     public String getDescription(Context context){
         return String.format("\n%s - %s", _COMMAND

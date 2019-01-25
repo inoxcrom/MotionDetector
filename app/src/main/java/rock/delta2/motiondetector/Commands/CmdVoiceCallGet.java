@@ -11,7 +11,7 @@ import rock.delta2.motiondetector.R;
 
 
 public class CmdVoiceCallGet extends CmdBase {
-    public static final String _COMMAND = "delta";
+    public static final String _COMMAND = "voicecall";
 
     public String getDescription(Context context){
         return String.format("\n%s - %s", _COMMAND

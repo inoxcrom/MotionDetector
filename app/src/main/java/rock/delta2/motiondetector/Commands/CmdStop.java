@@ -23,7 +23,6 @@ public class CmdStop extends CmdBase {
 
     public ResultCmd run(Context context, String ori, String[] parts, CmdParameters parms){
         PreferencesHelper.SetIsActive(false);
-//        MediatorMD.notifyStartStop(false);
 
         return new ResultCmd();
     }

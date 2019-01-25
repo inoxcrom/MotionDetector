@@ -6,12 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <SurfaceView
-        android:id="@+id/sfPrev"
-        android:layout_height="match_parent"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="8dp"
-        />
+        <SurfaceView
+            android:id="@+id/sfPrev"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            />
+
+        <Button
+            android:id="@+id/btStartStop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stop"
+            android:onClick="onCloseClick"
+            />
+
+        <CheckBox
+            android:id="@+id/cbAutoStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_start"
+            android:onClick="onClick"
+            />
+
+
+        <CheckBox
+            android:id="@+id/cbVoiceCall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/voice_call"
+            android:onClick="onClick"
+            />
+
+        <Button
+            android:id="@+id/btClose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
+            android:onClick="onCloseClick"
+            />
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>
