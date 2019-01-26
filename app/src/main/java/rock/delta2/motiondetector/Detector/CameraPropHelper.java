@@ -19,7 +19,7 @@ public class CameraPropHelper {
             Camera.Parameters parm = c.getParameters();
 
             if (p.equals(CmdCameraGet._COMMAND))
-                res = getPropsCamera(parm);
+                res = getPropsCamera(c);
             else if (p.equals(CmdCameraAngleGet._COMMAND))
                 res = getPropsCameraAngle(parm);
             else if (p.equals(CmdCameraSizeGet._COMMAND))
@@ -29,13 +29,15 @@ public class CameraPropHelper {
         return res;
     }
 
-    public static CamearaProps getPropsCamera(Camera.Parameters p){
+    public static CamearaProps getPropsCamera(Camera c){
         CamearaProps res = new CamearaProps();
 
         res.current = PreferencesHelper.getCameraIdx();
 
-        res.values.add("front");
         res.values.add("back");
+
+        if( Camera.getNumberOfCameras() > 1)
+            res.values.add("front");
 
         return res;
     }
