@@ -39,4 +39,9 @@
     <string name="voice_call">voice call</string>
     <string name="cmd_voice_call_get_description">get voice call</string>
     <string name="cmd_voice_call_set_description">set voice call</string>
+
+
+    <string name="status">Status</string>
+    <string name="status_stopped">Stopped</string>
+    <string name="status_started">Working</string>
 </resources>
