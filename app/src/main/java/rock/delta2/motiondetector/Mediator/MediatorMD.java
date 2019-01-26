@@ -6,6 +6,7 @@ import java.util.List;
 
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.RawPicture;
+import rock.delta2.motiondetector.Detector.CamearaProps;
 
 public class MediatorMD {
 
@@ -104,6 +105,13 @@ public class MediatorMD {
     public static void SendCameraProp(String msgId, String p){
         if(_GetCameraProp != null)
             _GetCameraProp.SendCameraProp(msgId, p);
+    }
+
+    public static CamearaProps GetCameraProps(String prop){
+        if(_GetCameraProp != null)
+            return  _GetCameraProp.GetCameraProps(prop);
+        else
+            return null;
     }
 
     //endregion IGetCameraProp

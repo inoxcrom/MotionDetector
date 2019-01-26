@@ -9,13 +9,17 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import rock.delta2.motiondetector.Commands.CmdAutostartGet;
 import rock.delta2.motiondetector.Commands.CmdAutostartSet;
+import rock.delta2.motiondetector.Commands.CmdCameraGet;
+import rock.delta2.motiondetector.Commands.CmdCameraSet;
 import rock.delta2.motiondetector.Commands.CmdStart;
 import rock.delta2.motiondetector.Commands.CmdStop;
 import rock.delta2.motiondetector.Commands.CmdTurn;
@@ -23,6 +27,7 @@ import rock.delta2.motiondetector.Commands.CmdVoiceCallGet;
 import rock.delta2.motiondetector.Commands.CmdVoiceCallSet;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.RawPicture;
+import rock.delta2.motiondetector.Detector.CamearaProps;
 import rock.delta2.motiondetector.Mediator.ICommandExcecuted;
 import rock.delta2.motiondetector.Mediator.IGetRawPictureCallback;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity
 
     CheckBox cbAutoStart;
     CheckBox cbVoiceCall;
+    Spinner spCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +57,9 @@ public class MainActivity extends AppCompatActivity
         sfPreviw = findViewById(R.id.sfPrev);
         cbVoiceCall = findViewById(R.id.cbVoiceCall);
         cbAutoStart = findViewById(R.id.cbAutoStart);
+        spCamera = findViewById(R.id.spCamera);
 
-        refresh("");
+         refresh("");
     }
 
     @Override
@@ -128,9 +135,31 @@ public class MainActivity extends AppCompatActivity
 
         if (isAll || prop.equals(CmdVoiceCallGet._COMMAND) || prop.equals(CmdVoiceCallSet._COMMAND))
             cbVoiceCall.setChecked(PreferencesHelper.getIsVoiceCall());
+
+        if (isAll || prop.equals(CmdCameraGet._COMMAND) || prop.equals(CmdCameraSet._COMMAND))
+            refreshSpinner(spCamera, CmdCameraGet._COMMAND);
+
     }
 
     private void setStartStop(){
+
+    }
+
+    private void refreshSpinner(Spinner s, String p){
+
+        try {
+            Thread.sleep(5000);
+        }catch (Exception e){}
+
+        CamearaProps prop = MediatorMD.GetCameraProps(p);
+        if(prop == null)
+            return;
+
+        ArrayAdapter<String> a = new ArrayAdapter(this, android.R.layout.simple_spinner_item, prop.values);
+
+        s.setAdapter(a);
+
+        s.setSelection(prop.current);
 
     }
 

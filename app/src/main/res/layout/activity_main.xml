@@ -47,6 +47,14 @@
             android:onClick="onClick"
             />
 
+
+        <Spinner
+            android:id="@+id/spCamera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </Spinner>
+
         <Button
             android:id="@+id/btClose"
             android:layout_width="match_parent"

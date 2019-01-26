@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 import rock.delta2.motiondetector.Detector.MDManager;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
+import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 import rock.delta2.motiondetector.Sender.Sender;
 
 public class MainService extends Service {
@@ -23,12 +24,16 @@ public class MainService extends Service {
 
     @Override
     public void onCreate() {
+
+        PreferencesHelper.init(this);
+
         startForeground(R.drawable.ic_notify_proc, "motion detector", 4524);
+
+        Manager = new MDManager(this);
 
         MediatorMD.setTransport(new Sender(this));
         MediatorMD.setCommandCheckMessage(new CommandManager(this));
 
-        Manager = new MDManager(this);
 
         startActivity(new Intent(this, MainActivity.class));
 

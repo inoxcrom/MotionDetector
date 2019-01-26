@@ -45,6 +45,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
         _context  = context;
 
         MediatorMD.registerGetRawPciture(this);
+        MediatorMD.setCameraProp(this);
 
         _handler = new HandlerExt(Looper.getMainLooper());
 
@@ -142,10 +143,21 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
     @Override
     public void SendCameraProp(String msgId,String prop) {
 
-        String res = "";
+        StringBuilder sb = new StringBuilder();
 
-        MediatorMD.sendText(msgId, res);
+        CamearaProps p = CameraPropHelper.getProps(prop, _camera);
 
+        for(int i =0; i < p.values.size(); i++){
+            sb.append(String.format("%s  %s  %s \r\n", i, i == p.current ? "[x]" : "[  ]", p.values.get(i)));
+        }
+
+        MediatorMD.sendText(msgId, sb.toString());
+
+    }
+
+    @Override
+    public CamearaProps GetCameraProps(String prop) {
+        return CameraPropHelper.getProps(prop, _camera);
     }
 
 
@@ -163,6 +175,9 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
 
 
     protected void onDestroy(){
+        MediatorMD.setCameraProp(null);
+        MediatorMD.registerGetRawPciture(null);
+
         cameraRelase();
         destroySurfaceHolder();
     }
@@ -198,7 +213,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
         Message message = _handler.obtainMessage(camIdx);
         message.sendToTarget();
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
