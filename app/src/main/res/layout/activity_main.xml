@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/stop"
-            android:onClick="onCloseClick"
+            android:onClick="onStartStopClick"
             />
 
         <CheckBox
@@ -54,6 +54,18 @@
             android:layout_height="wrap_content">
 
         </Spinner>
+
+        <Spinner
+            android:id="@+id/spCameraSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <Spinner
+            android:id="@+id/spCameraAngle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
 
         <Button
             android:id="@+id/btClose"

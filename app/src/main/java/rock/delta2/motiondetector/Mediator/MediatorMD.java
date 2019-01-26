@@ -116,5 +116,19 @@ public class MediatorMD {
 
     //endregion IGetCameraProp
 
+
+    // region IGetCameraProp
+    private  static ICameraStarted _CameraStarted;
+
+    public static void setOnCameraStarted(ICameraStarted p){
+        _CameraStarted = p;
+    }
+
+    public static void OnCameraStartted(boolean isStarted){
+        if(_CameraStarted != null)
+            _CameraStarted.OnCameraStartted (isStarted);
+    }
+
+    //endregion IGetCameraProp
 }
 

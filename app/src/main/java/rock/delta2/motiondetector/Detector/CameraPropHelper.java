@@ -13,7 +13,7 @@ import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 public class CameraPropHelper {
 
     public static CamearaProps getProps(String p, Camera c){
-        CamearaProps res = null;
+        CamearaProps res = new CamearaProps();
 
         if (c != null) {
             Camera.Parameters parm = c.getParameters();
@@ -30,7 +30,7 @@ public class CameraPropHelper {
     }
 
     public static CamearaProps getPropsCamera(Camera.Parameters p){
-        CamearaProps res = null;
+        CamearaProps res = new CamearaProps();
 
         res.current = PreferencesHelper.getCameraIdx();
 
@@ -41,7 +41,7 @@ public class CameraPropHelper {
     }
 
     public static CamearaProps getPropsCameraAngle(Camera.Parameters p){
-        CamearaProps res = null;
+        CamearaProps res = new CamearaProps();
 
         res.current = PreferencesHelper.getCameraAngleIdx();
 
@@ -53,8 +53,22 @@ public class CameraPropHelper {
         return res;
     }
 
+    public static int getAngle(int idx){
+        int res = 0;
+        if(idx == 0 )
+            res = 0;
+        else if (idx == 1)
+            res = 90;
+        else if (idx == 2)
+            res = 180;
+        else if (idx == 3)
+            res = 270;
+
+        return res;
+    }
+
     public static CamearaProps getPropsCameraSize(Camera.Parameters p){
-        CamearaProps res = null;
+        CamearaProps res = new CamearaProps();
 
         Camera.Size c = p.getPreviewSize();
         List<Camera.Size> s = p.getSupportedPreviewSizes();

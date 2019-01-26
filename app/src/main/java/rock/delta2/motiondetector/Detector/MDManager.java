@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import rock.delta2.motiondetector.Commands.CmdCameraSet;
+import rock.delta2.motiondetector.Commands.CmdCameraSizeSet;
 import rock.delta2.motiondetector.Commands.CmdStart;
 import rock.delta2.motiondetector.Commands.CmdStop;
 import rock.delta2.motiondetector.Common.CmdParameters;
@@ -76,18 +78,15 @@ public class MDManager implements IGetRawPictureCallback, ICommandExcecuted {
 
     @Override
     public void OnCommandExcecuted(String comand) {
-        if(comand.equals(CmdStart._COMMAND)){
+
+        if(comand.equals(CmdCameraSet._COMMAND)
+            || comand.equals(CmdCameraSizeSet._COMMAND)
+        ){
             timerStop();
             stopCamera();
             openCamera();
             timerStart();
         }
-        else if (comand.equals(CmdStop._COMMAND)){
-            timerStop();
-            stopCamera();
-        }
-        //else if (comand.equals(CmdS))
-
 
 
     }
@@ -109,10 +108,10 @@ public class MDManager implements IGetRawPictureCallback, ICommandExcecuted {
 
         MediatorMD.registerCommandExcecuted(this);
 
-        if (PreferencesHelper.GetIsActive()) {
+      //  if (PreferencesHelper.GetIsActive()) {
             openCamera();
             timerStart();
-        }
+      //  }
 
 
     }

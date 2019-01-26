@@ -8,6 +8,8 @@ import java.util.List;
 
 import rock.delta2.motiondetector.Commands.CmdAutostartGet;
 import rock.delta2.motiondetector.Commands.CmdAutostartSet;
+import rock.delta2.motiondetector.Commands.CmdCameraAngleGet;
+import rock.delta2.motiondetector.Commands.CmdCameraAngleSet;
 import rock.delta2.motiondetector.Commands.CmdCameraGet;
 import rock.delta2.motiondetector.Commands.CmdCameraSet;
 import rock.delta2.motiondetector.Commands.CmdCameraSizeGet;
@@ -53,6 +55,9 @@ public class CommandManager implements ICommandCheckMessage {
 
         _commands.add(new CmdCameraSizeSet());
         _commands.add(new CmdCameraSizeGet());
+
+        _commands.add(new CmdCameraAngleSet());
+        _commands.add(new CmdCameraAngleGet());
 
         _commands.add(new CmdDeltaSet());
         _commands.add(new CmdDeltaGet());

@@ -22,6 +22,7 @@ import rock.delta2.motiondetector.Helper;
 import rock.delta2.motiondetector.Mediator.IGetCameraProp;
 import rock.delta2.motiondetector.Mediator.IGetRawPciture;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
+import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 
 public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callback
         , Camera.PreviewCallback
@@ -33,6 +34,8 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
     private Context _context;
 
     HandlerExt _handler;
+
+    CameraParameters _params;
 
    // private Timer mTimer;
   //  private CameraStopTask  mTimerTask;
@@ -51,21 +54,20 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
 
         _rawPictures = Collections.synchronizedList(new ArrayList<RawPicture>());
 
-        cameraOpen(param.camIdx);
+        cameraOpen(param);
 
     }
 
     boolean isOpened = false;
     int _camIdx;
-    private void cameraOpen(int camIdx){
+    private void cameraOpen(CameraParameters param){
         if(/*_camIdx != camIdx && */isOpened) {
             CameraRelase();
         }
 
-        _camIdx= camIdx;
         if(!isOpened){
             lastCameraTime = Calendar.getInstance().getTimeInMillis();
-            openCamera(camIdx);
+            openCamera(param);
 
         //    mTimer = new Timer();
         //    mTimerTask = new CameraStopTask();
@@ -91,6 +93,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
 
             _camera.setPreviewCallbackWithBuffer(this);
             _camera.startPreview();
+            MediatorMD.OnCameraStartted(true);
 
         }
         isStarted = true;
@@ -99,6 +102,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
         if(isStarted) {
             _camera.setPreviewCallbackWithBuffer(null);
             _camera.stopPreview();
+            MediatorMD.OnCameraStartted(false);
 
         }
         isStarted = false;
@@ -119,7 +123,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
         p.h = sizeH;
         p.w = sizeW;
 
-        p.angle = 0;//_angle._displayOrientation;
+        p.angle = CameraPropHelper.getAngle(PreferencesHelper.getCameraAngleIdx());
 
         p.cmdParam = param;
 
@@ -136,7 +140,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
          if(_camera != null)
             _camera.addCallbackBuffer(p.data);
          else
-             cameraOpen(_camIdx);
+             cameraOpen(_params);
 
     }
 
@@ -169,7 +173,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
 
         @Override
         public void handleMessage(Message message) {
-            openCameraWork(message.what);
+            openCameraWork( (CameraParameters) message.obj);
         }
     }
 
@@ -209,8 +213,8 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
     }
     //endregion surfaceholder
 
-    public void openCamera(int camIdx){
-        Message message = _handler.obtainMessage(camIdx);
+    public void openCamera(CameraParameters param){
+        Message message = _handler.obtainMessage(0, param);
         message.sendToTarget();
         try {
             Thread.sleep(1000);
@@ -219,11 +223,11 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
         }
     }
 
-    public void openCameraWork(int camIdx){
+    public void openCameraWork(CameraParameters parm){
 
         destroySurfaceHolder();
 
-        _camera = openBackCamera();
+        _camera = parm.camIdx == 0 ? openBackCamera(parm) : openFrontamera(parm);
 
         createSurfaceHolder(_context);
 
@@ -248,7 +252,7 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
         }
     }
 
-    private static Camera openBackCamera() {
+    private static Camera openBackCamera(CameraParameters parm) {
         Camera cam = null;
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         int cameraCount = Camera.getNumberOfCameras();
@@ -258,28 +262,9 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
                 try {
                     cam = Camera.open(camIdx);
 
-                    Camera.Parameters p = cam.getParameters();
 
+                    setPreviewSize(cam, parm.sizeIdx);
 
-                    long hw = Long.MAX_VALUE;
-                    Camera.Size  pos = p.getSupportedPreviewSizes().get(0);
-                    for (Camera.Size c :  p.getSupportedPreviewSizes())
-                    {
-                        long m = c.height * c.width;
-
-                        if(m < hw && c.width>=320){
-                            hw = m;
-                            pos = c;
-                        }
-                    }
-
-                    p.setPreviewSize(pos.width, pos.height);
-                    cam.setParameters(p);
-
-                    Camera.Size s = p.getPreviewSize();
-
-                    sizeH = s.height;
-                    sizeW = s.width;
 
                 } catch (RuntimeException e) {
                     Helper.Ex2Log(e);
@@ -290,6 +275,56 @@ public class SurfaceViewExt extends SurfaceView implements SurfaceHolder.Callbac
         return cam;
     }
 
+    private static Camera openFrontamera(CameraParameters parm) {
+        Camera cam = null;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        int cameraCount = Camera.getNumberOfCameras();
+        for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+            Camera.getCameraInfo(camIdx, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                try {
+                    cam = Camera.open(camIdx);
+
+                    setPreviewSize(cam, parm.sizeIdx);
+
+                } catch (RuntimeException e) {
+                    Helper.Ex2Log(e);
+                }
+            }
+        }
+
+        return cam;
+    }
+
+
+    private static void setPreviewSize(Camera cam, int idx){
+        Camera.Parameters p = cam.getParameters();
+
+
+        long hw = Long.MAX_VALUE;
+
+        Camera.Size  pos = p.getSupportedPreviewSizes().get(idx);
+        if (pos.width > 1024) {
+            pos = p.getSupportedPreviewSizes().get(0);
+
+            for (Camera.Size c : p.getSupportedPreviewSizes()) {
+                long m = c.height * c.width;
+
+                if (m < hw && c.width >= 320) {
+                    hw = m;
+                    pos = c;
+                }
+            }
+        }
+
+        p.setPreviewSize(pos.width, pos.height);
+        cam.setParameters(p);
+
+        Camera.Size s = p.getPreviewSize();
+
+        sizeH = s.height;
+        sizeW = s.width;
+    }
 
 
     @Override

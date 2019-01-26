@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
@@ -18,8 +20,10 @@ import java.util.TimerTask;
 
 import rock.delta2.motiondetector.Commands.CmdAutostartGet;
 import rock.delta2.motiondetector.Commands.CmdAutostartSet;
+import rock.delta2.motiondetector.Commands.CmdCameraAngleSet;
 import rock.delta2.motiondetector.Commands.CmdCameraGet;
 import rock.delta2.motiondetector.Commands.CmdCameraSet;
+import rock.delta2.motiondetector.Commands.CmdCameraSizeSet;
 import rock.delta2.motiondetector.Commands.CmdStart;
 import rock.delta2.motiondetector.Commands.CmdStop;
 import rock.delta2.motiondetector.Commands.CmdTurn;
@@ -28,13 +32,14 @@ import rock.delta2.motiondetector.Commands.CmdVoiceCallSet;
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Common.RawPicture;
 import rock.delta2.motiondetector.Detector.CamearaProps;
+import rock.delta2.motiondetector.Mediator.ICameraStarted;
 import rock.delta2.motiondetector.Mediator.ICommandExcecuted;
 import rock.delta2.motiondetector.Mediator.IGetRawPictureCallback;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
 import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 
 public class MainActivity extends AppCompatActivity
-        implements IGetRawPictureCallback, ICommandExcecuted {
+        implements IGetRawPictureCallback, ICommandExcecuted , ICameraStarted, AdapterView.OnItemSelectedListener {
 
     private Timer mTimer;
     private TimerTaskPict mTimerTask;
@@ -46,6 +51,9 @@ public class MainActivity extends AppCompatActivity
     CheckBox cbAutoStart;
     CheckBox cbVoiceCall;
     Spinner spCamera;
+    Spinner spCameraSize;
+    Spinner spCameraAngle;
+    Button btStartStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +61,26 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         MediatorMD.registerCommandExcecuted(this);
+        MediatorMD.setOnCameraStarted(this);
 
         sfPreviw = findViewById(R.id.sfPrev);
         cbVoiceCall = findViewById(R.id.cbVoiceCall);
         cbAutoStart = findViewById(R.id.cbAutoStart);
-        spCamera = findViewById(R.id.spCamera);
 
-         refresh("");
+        spCamera = findViewById(R.id.spCamera);
+        spCamera.setOnItemSelectedListener(this);
+
+        spCameraSize = findViewById(R.id.spCameraSize);
+        spCameraSize.setOnItemSelectedListener(this);
+
+        spCameraAngle = findViewById(R.id.spCameraAngle);
+        spCameraAngle.setOnItemSelectedListener(this);
+
+        btStartStop = findViewById(R.id.btStartStop);
+
+        refresh("");
     }
+
 
     @Override
     public void onStart(){
@@ -130,36 +150,46 @@ public class MainActivity extends AppCompatActivity
         if (isAll || prop.equals(CmdStart._COMMAND) || prop.equals(CmdStop._COMMAND) || prop.equals(CmdTurn._COMMAND) )
             setStartStop();
 
-        if (isAll || prop.equals(CmdAutostartGet._COMMAND) || prop.equals(CmdAutostartSet._COMMAND))
+        if (isAll || prop.equals(CmdAutostartSet._COMMAND))
             cbAutoStart.setChecked(PreferencesHelper.getAutoStart());
 
-        if (isAll || prop.equals(CmdVoiceCallGet._COMMAND) || prop.equals(CmdVoiceCallSet._COMMAND))
+        if (isAll || prop.equals(CmdVoiceCallSet._COMMAND))
             cbVoiceCall.setChecked(PreferencesHelper.getIsVoiceCall());
 
-        if (isAll || prop.equals(CmdCameraGet._COMMAND) || prop.equals(CmdCameraSet._COMMAND))
+        if (isAll || prop.equals(CmdCameraSet._COMMAND))
             refreshSpinner(spCamera, CmdCameraGet._COMMAND);
+
+        if (isAll || prop.equals(CmdCameraSizeSet._COMMAND))
+            refreshSpinner(spCameraSize, CmdCameraSizeSet._COMMAND);
+
+        if (isAll || prop.equals(CmdCameraSizeSet._COMMAND))
+            refreshSpinner(spCameraAngle, CmdCameraAngleSet._COMMAND);
+
 
     }
 
     private void setStartStop(){
-
+        if(PreferencesHelper.GetIsActive())
+            btStartStop.setText(R.string.stop);
+        else
+            btStartStop.setText(R.string.start);
     }
 
     private void refreshSpinner(Spinner s, String p){
 
         try {
-            Thread.sleep(5000);
-        }catch (Exception e){}
+            CamearaProps prop = MediatorMD.GetCameraProps(p);
+            if (prop == null)
+                return;
 
-        CamearaProps prop = MediatorMD.GetCameraProps(p);
-        if(prop == null)
-            return;
+            ArrayAdapter<String> a = new ArrayAdapter(this, android.R.layout.simple_spinner_item, prop.values);
 
-        ArrayAdapter<String> a = new ArrayAdapter(this, android.R.layout.simple_spinner_item, prop.values);
+            s.setAdapter(a);
 
-        s.setAdapter(a);
-
-        s.setSelection(prop.current);
+            s.setSelection(prop.current);
+        }catch (Exception e){
+            Helper.Ex2Log(e);
+        }
 
     }
 
@@ -176,7 +206,34 @@ public class MainActivity extends AppCompatActivity
         finish();
     }
 
-//region camera preview
+    public void onStartStopClick(View view) {
+        MediatorMD.CheckMessage(PreferencesHelper.GetIsActive()? CmdStop._COMMAND : CmdStart._COMMAND, "0");
+
+    }
+
+    @Override
+    public void OnCameraStartted(boolean isStarted) {
+        if(isStarted)
+            refresh("");
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(parent.equals(spCamera) && PreferencesHelper.getCameraIdx() != position)
+            MediatorMD.CheckMessage(String.format("set %s %s", CmdCameraSet._COMMAND, position), "0");
+        else if(parent.equals(spCameraSize) && PreferencesHelper.getCameraSizeIdx() != position)
+            MediatorMD.CheckMessage(String.format("set %s %s", CmdCameraSizeSet._COMMAND, position), "0");
+        else if(parent.equals(spCameraAngle) && PreferencesHelper.getCameraAngleIdx() != position)
+            MediatorMD.CheckMessage(String.format("set %s %s", CmdCameraAngleSet._COMMAND, position), "0");
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    //region camera preview
     static class DrawPicture implements  Runnable{
 
         MainActivity activity;
