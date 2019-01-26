@@ -51,7 +51,7 @@ public class MainService extends Service {
     protected  void startForeground(int ico, String title, int notifyId) {
 
             Notification.Builder builder = new Notification.Builder(this)
-                    .setSmallIcon(ico)
+                //    .setSmallIcon(ico)
                     .setContentTitle(title)
                     .setContentText("")
                     .setOnlyAlertOnce(true)

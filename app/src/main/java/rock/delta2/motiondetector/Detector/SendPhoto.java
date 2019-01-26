@@ -5,12 +5,15 @@ import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import rock.delta2.motiondetector.Common.CmdParameters;
 import rock.delta2.motiondetector.Helper;
 import rock.delta2.motiondetector.Mediator.MediatorMD;
 
 public class SendPhoto {
+
 
 
     //region savedir
@@ -32,6 +35,23 @@ public class SendPhoto {
                 child.delete();
 
         }
+
+        if(saveDir.listFiles().length > 120){
+            final File[] sortedByDate = saveDir.listFiles();
+
+            if (sortedByDate != null && sortedByDate.length > 1) {
+                Arrays.sort(sortedByDate, new Comparator<File>() {
+                    @Override
+                    public int compare(File object1, File object2) {
+                        return (int) ((object1.lastModified() < object2.lastModified()) ? object1.lastModified(): object2.lastModified());
+                    }
+                });
+            }
+
+            for (int i=0; i < 20; i++ )
+                sortedByDate[i].delete();
+        }
+
 
 
         return saveDir;
