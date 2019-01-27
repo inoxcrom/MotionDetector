@@ -12,13 +12,18 @@ import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 public class InfoHelper {
     public static void sendInfo(Context context){
         StringBuilder sb = new StringBuilder("MotionDetector");
-        sb.append("\n------------------");
+        sb.append("\n\n------------------");
 
-        sb.append( String.format("\n%s = %s", context.getResources().getString(R.string.status), context.getResources().getString( PreferencesHelper.GetIsActive() ? R.string.status_started : R.string.status_stopped)));
+        sb.append( String.format("\n\n%s = %s", context.getResources().getString(R.string.status), context.getResources().getString( PreferencesHelper.GetIsActive() ? R.string.status_started : R.string.status_stopped)));
 
         sb.append(getCamProp(CmdCameraSet._COMMAND));
         sb.append(getCamProp(CmdCameraSizeSet._COMMAND));
         sb.append(getCamProp(CmdCameraAngleSet._COMMAND));
+
+        sb.append( "\n\n-------------------------");
+
+        sb.append( String.format("\n%s : %s", context.getResources().getString(R.string.working_time)
+                , MainService.getWorkingTime(context)));
 
         MediatorMD.sendText("0", sb.toString());
     }
