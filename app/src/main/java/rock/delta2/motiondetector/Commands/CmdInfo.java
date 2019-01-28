@@ -18,7 +18,7 @@ public class CmdInfo extends CmdBase {
 
     public String getDescription(Context context){
         return String.format("\n%s - %s", _COMMAND
-                , context.getResources().getString(R.string.cmd_delta_set_description));
+                , context.getResources().getString(R.string.cmd_info_description));
     }
 
     public CmdInfo(){

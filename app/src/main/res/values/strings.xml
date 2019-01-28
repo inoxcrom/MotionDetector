@@ -31,6 +31,10 @@
     <string name="cmd_delta_get_description">get delta</string>
     <string name="cmd_delta_set_description">set delta</string>
 
+    <string name="info">info</string>
+    <string name="cmd_info_description">info</string>
+
+
 
     <string name="angle">angle</string>
     <string name="cmd_angle_get_description">get angle</string>
