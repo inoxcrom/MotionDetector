@@ -9,10 +9,10 @@
 
 
     <string name="cmd_get_photo_description">any other characters - request a photo</string>
+
     <string name="cmd_start_description">starting motion detection</string>
     <string name="cmd_stop_description">stop motion detector</string>
     <string name="cmd_turn_description">turn motion detector</string>
-
 
 
     <string name="auto_start">Auto start</string>
@@ -30,6 +30,10 @@
     <string name="delta">delta</string>
     <string name="cmd_delta_get_description">get delta</string>
     <string name="cmd_delta_set_description">set delta</string>
+
+    <string name="voice">voice</string>
+    <string name="cmd_voice_get_description">get voice</string>
+    <string name="cmd_voice_set_description">set voice</string>
 
     <string name="info">info</string>
     <string name="cmd_info_description">info</string>
