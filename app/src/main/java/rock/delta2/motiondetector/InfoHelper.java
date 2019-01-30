@@ -10,6 +10,15 @@ import rock.delta2.motiondetector.Mediator.MediatorMD;
 import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 
 public class InfoHelper {
+
+    public static void sendHelp(Context context){
+        StringBuilder sb = new StringBuilder("MotionDetector");
+        sb.append("\n\n------------------");
+        sb.append(context.getResources().getString(R.string.cmd_camera_set_description));
+        sb.append("\n\n------------------");
+        MediatorMD.sendText("0", sb.toString());
+    }
+
     public static void sendInfo(Context context){
         StringBuilder sb = new StringBuilder("MotionDetector");
         sb.append("\n\n------------------");

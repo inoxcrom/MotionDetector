@@ -37,6 +37,8 @@
     <string name="info">info</string>
     <string name="cmd_info_description">info</string>
 
+    <string name="help">help</string>
+    <string name="cmd_help_description">help</string>
 
 
     <string name="angle">angle</string>
