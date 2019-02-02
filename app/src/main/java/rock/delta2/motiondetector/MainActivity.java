@@ -206,6 +206,10 @@ public class MainActivity extends AppCompatActivity
         finish();
     }
 
+    public void onMinimizeClick(View view) {
+        finish();
+    }
+
     public void onStartStopClick(View view) {
         MediatorMD.CheckMessage(PreferencesHelper.GetIsActive()? CmdStop._COMMAND : CmdStart._COMMAND, "0");
 

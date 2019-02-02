@@ -7,6 +7,8 @@
     <string name="stop">stop</string>
     <string name="start">start</string>
 
+    <string name="minimize">minimize</string>
+
 
     <string name="cmd_get_photo_description">any other characters - request a photo</string>
     <string name="cmd_start_description">starting motion detection</string>

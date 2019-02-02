@@ -68,6 +68,14 @@
 
 
         <Button
+            android:id="@+id/btMinimize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/minimize"
+            android:onClick="onMinimizeClick"
+            />
+
+        <Button
             android:id="@+id/btClose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
