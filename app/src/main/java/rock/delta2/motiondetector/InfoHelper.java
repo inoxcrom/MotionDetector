@@ -10,6 +10,40 @@ import rock.delta2.motiondetector.Mediator.MediatorMD;
 import rock.delta2.motiondetector.Preferences.PreferencesHelper;
 
 public class InfoHelper {
+
+    public static void sendHelp(Context context){
+        StringBuilder sb = new StringBuilder("MotionDetector");
+        sb.append("\n\n------------------");
+
+        sb.append(context.getResources().getString(R.string.cmd_start_description ));
+        sb.append(context.getResources().getString(R.string.cmd_stop_description ));
+        sb.append(context.getResources().getString(R.string.cmd_turn_description ));
+
+        sb.append(context.getResources().getString(R.string.cmd_camera_get_description ));
+        sb.append(context.getResources().getString(R.string.cmd_camera_set_description ));
+
+        sb.append(context.getResources().getString(R.string.cmd_size_get_description));
+        sb.append(context.getResources().getString(R.string.cmd_size_set_description));
+
+        sb.append(context.getResources().getString(R.string.cmd_angle_get_description));
+        sb.append(context.getResources().getString(R.string.cmd_angle_set_description));
+
+        sb.append(context.getResources().getString(R.string.cmd_delta_get_description));
+        sb.append(context.getResources().getString(R.string.cmd_delta_set_description));
+
+        sb.append(context.getResources().getString(R.string.cmd_auto_start_get_description));
+        sb.append(context.getResources().getString(R.string.cmd_auto_start_set_description));
+
+        sb.append(context.getResources().getString(R.string.cmd_voice_call_get_description));
+        sb.append(context.getResources().getString(R.string.cmd_voice_call_set_description));
+
+        sb.append(context.getResources().getString(R.string.cmd_info_description));
+
+
+        sb.append("\n\n------------------");
+        MediatorMD.sendText("0", sb.toString());
+    }
+
     public static void sendInfo(Context context){
         StringBuilder sb = new StringBuilder("MotionDetector");
         sb.append("\n\n------------------");

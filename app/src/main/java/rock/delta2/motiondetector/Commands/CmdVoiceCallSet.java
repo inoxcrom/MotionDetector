@@ -14,7 +14,7 @@ public class CmdVoiceCallSet extends CmdBase {
 
     public String getDescription(Context context){
         return String.format("\n%s - %s", _COMMAND
-                , context.getResources().getString(R.string.cmd_delta_set_description));
+                , context.getResources().getString(R.string.cmd_voice_set_description));
     }
 
     public CmdVoiceCallSet(){
