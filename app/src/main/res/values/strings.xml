@@ -8,6 +8,7 @@
 
     <string name="minimize">minimize</string>
 
+    <string name="show_preview">show preview</string>
 
     <string name="cmd_get_photo_description">any other characters - request a photo</string>
 

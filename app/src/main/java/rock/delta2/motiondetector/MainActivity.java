@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     CheckBox cbAutoStart;
     CheckBox cbVoiceCall;
+    CheckBox cbShowPreview;
     Spinner spCamera;
     Spinner spCameraSize;
     Spinner spCameraAngle;
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity
 
         btStartStop = findViewById(R.id.btStartStop);
 
+        cbShowPreview = findViewById(R.id.cbShowPreview);
+
         refresh("");
     }
 
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity
         mTimer = new Timer();
         mTimerTask = new TimerTaskPict(_current);
 
-     //   mTimer.schedule(mTimerTask, 200, 400);
     }
 
     @Override
@@ -198,7 +200,18 @@ public class MainActivity extends AppCompatActivity
             PreferencesHelper.setAutoStart(cbAutoStart.isChecked());
         else if (view.equals(cbVoiceCall))
             PreferencesHelper.setAutoStart(cbVoiceCall.isChecked());
+        else if(view.equals(cbShowPreview))
+            startStopPreviev(cbShowPreview.isChecked());
 
+    }
+
+    private void startStopPreviev(boolean isShow){
+        if(isShow){
+            mTimer.schedule(mTimerTask, 200, 400);
+        }
+        else {
+            mTimer.cancel();
+        }
     }
 
     public void onCloseClick(View view) {
