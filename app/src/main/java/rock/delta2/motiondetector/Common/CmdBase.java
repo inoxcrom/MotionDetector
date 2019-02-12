@@ -36,7 +36,7 @@ public abstract class CmdBase {
             Helper.Log("Cmd.exec",cmd + " " + orig);
             res = run(context, orig, parts, parms);
 
-            if(type == en_type.set)
+            if(type != en_type.get)
                 MediatorMD.OnCommandExcecuted(cmd);
 
         } catch (Exception ex) {
