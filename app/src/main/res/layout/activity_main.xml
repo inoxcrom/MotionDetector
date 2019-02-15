@@ -38,6 +38,31 @@
             android:onClick="onStartStopClick"
             />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delta"
+                />
+            <EditText
+                android:id="@+id/edDelta"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ok"
+                android:onClick="onClickOkDelta"
+                />
+        </LinearLayout>
+
         <CheckBox
             android:id="@+id/cbAutoStart"
             android:layout_width="match_parent"

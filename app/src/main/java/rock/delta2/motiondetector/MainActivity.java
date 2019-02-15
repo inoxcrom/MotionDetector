@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.Timer;
@@ -24,6 +25,7 @@ import rock.delta2.motiondetector.Commands.CmdCameraAngleSet;
 import rock.delta2.motiondetector.Commands.CmdCameraGet;
 import rock.delta2.motiondetector.Commands.CmdCameraSet;
 import rock.delta2.motiondetector.Commands.CmdCameraSizeSet;
+import rock.delta2.motiondetector.Commands.CmdDeltaSet;
 import rock.delta2.motiondetector.Commands.CmdStart;
 import rock.delta2.motiondetector.Commands.CmdStop;
 import rock.delta2.motiondetector.Commands.CmdTurn;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity
     Spinner spCameraAngle;
     Button btStartStop;
 
+    EditText edDelta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +83,8 @@ public class MainActivity extends AppCompatActivity
 
         btStartStop = findViewById(R.id.btStartStop);
 
+        edDelta = findViewById(R.id.edDelta);
+
         cbShowPreview = findViewById(R.id.cbShowPreview);
 
         refresh("");
@@ -92,7 +98,6 @@ public class MainActivity extends AppCompatActivity
         _current = new RawPicture(this);
         mTimer = new Timer();
         mTimerTask = new TimerTaskPict(_current);
-
     }
 
     @Override
@@ -167,6 +172,9 @@ public class MainActivity extends AppCompatActivity
         if (isAll || prop.equals(CmdCameraSizeSet._COMMAND))
             refreshSpinner(spCameraAngle, CmdCameraAngleSet._COMMAND);
 
+        if (isAll || prop.equals(CmdDeltaSet._COMMAND))
+            edDelta.setText(PreferencesHelper.getDelta());
+
 
     }
 
@@ -200,18 +208,9 @@ public class MainActivity extends AppCompatActivity
             PreferencesHelper.setAutoStart(cbAutoStart.isChecked());
         else if (view.equals(cbVoiceCall))
             PreferencesHelper.setAutoStart(cbVoiceCall.isChecked());
-        else if(view.equals(cbShowPreview))
-            startStopPreviev(cbShowPreview.isChecked());
+        else if (view.equals(cbShowPreview))
+            start_stop_preview(cbShowPreview.isChecked());
 
-    }
-
-    private void startStopPreviev(boolean isShow){
-        if(isShow){
-            mTimer.schedule(mTimerTask, 200, 400);
-        }
-        else {
-            mTimer.cancel();
-        }
     }
 
     public void onCloseClick(View view) {
@@ -223,10 +222,17 @@ public class MainActivity extends AppCompatActivity
         finish();
     }
 
+
     public void onStartStopClick(View view) {
         MediatorMD.CheckMessage(PreferencesHelper.GetIsActive()? CmdStop._COMMAND : CmdStart._COMMAND, "0");
 
     }
+
+    public void onClickOkDelta(View view) {
+        MediatorMD.CheckMessage(String.format("set %s %s", CmdDeltaSet._COMMAND, edDelta.getText()),"0");
+    }
+
+
 
     @Override
     public void OnCameraStartted(boolean isStarted) {
@@ -248,6 +254,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void start_stop_preview(boolean isShow){
+        if(isShow){
+            mTimer.schedule(mTimerTask, 0, 400);
+        }
+        else
+            mTimer.cancel();
     }
 
     //region camera preview
